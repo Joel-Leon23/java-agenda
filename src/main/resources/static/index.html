@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Agenda</title>
+</head>
+    <body>
+    <h1>Registrar contacto</h1>
+    <form class="agenda">
+        <label  for="name">Nombre(s)</label><br>
+        <input class="field" type="text" id="name" name="name"><br>
+        <label for="firstLastName">Apellido Paterno</label><br>
+        <input class="field" type="text" id="firstLastName" name="firstLastName"><br>
+        <label for="secondLastName">Apellido Materno</label><br>
+        <input class="field" type="text" id="secondLastName" name="secondLastName"><br>
+        <label for="email">Email</label><br>
+        <input class="field" type="text" id="email" name="email"><br>
+        <label for="phoneNumber">Numero telefono</label><br>
+        <input type="text" id="phoneNumber" name="phoneNumber"><br><br>
+        <select name="path"><br>
+            <option value="/providers">Proveedor</option>
+            <option value="/clients">Cliente</option>
+        </select><br><br>
+        <select name="status">
+            <option value=true>Activo/Con membresía</option>
+            <option value=false>Inactivo/Sin membresía</option>
+        </select><br><br>
+        <button type="submit">Crear contacto</button>
+    </form>
+    <script>
+        const formElement = document.querySelector('.agenda');
+        formElement.addEventListener('submit', event => {
+            event.preventDefault();
+            const formData = new FormData(formElement);
+            const path = formData.get('path');
+            formData.delete('path');
+            const data = Object.fromEntries(formData);
+            const url = 'http://localhost:8080' + path;
+            console.log(url);
+            fetch(url,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+        });
+    </script>
+    </body>
+</html>
